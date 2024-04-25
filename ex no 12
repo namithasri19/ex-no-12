@@ -1,0 +1,68 @@
+# ex-no-12
+//movies
+function getMovieDetails(movieID) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            parseXML(this, movieID);
+        }
+    };
+    xhttp.open("GET", "movies.xml", true);
+    xhttp.send();
+}
+
+function parseXML(xml, movieID) {
+    var xmlDoc = xml.responseXML;
+    var movies = xmlDoc.getElementsByTagName("movie");
+    for (var i = 0; i < movies.length; i++) {
+        var id = movies[i].getElementsByTagName("id")[0].childNodes[0].nodeValue;
+        if (id == movieID) {
+            var title = movies[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+            var director = movies[i].getElementsByTagName("director")[0].childNodes[0].nodeValue;
+            var year = movies[i].getElementsByTagName("year")[0].childNodes[0].nodeValue;
+            var genre = movies[i].getElementsByTagName("genre")[0].childNodes[0].nodeValue;
+            console.log("Title: " + title);
+            console.log("Director: " + director);
+            console.log("Year: " + year);
+            console.log("Genre: " + genre);
+            return;
+        }
+    }
+    console.log("Movie with ID " + movieID + " not found.");
+}
+
+// Example usage
+getMovieDetails(3); // You can pass any movie ID here to retrieve its details
+
+//movies.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<movies>
+    <movie>
+        <id>1</id>
+        <title>The Shawshank Redemption</title>
+        <director>Frank Darabont</director>
+        <year>1994</year>
+        <genre>Drama</genre>
+    </movie>
+    <movie>
+        <id>2</id>
+        <title>The Godfather</title>
+        <director>Francis Ford Coppola</director>
+        <year>1972</year>
+        <genre>Crime</genre>
+    </movie>
+    <movie>
+        <id>3</id>
+        <title>The Dark Knight</title>
+        <director>Christopher Nolan</director>
+        <year>2008</year>
+        <genre>Action</genre>
+    </movie>
+    <movie>
+        <id>4</id>
+        <title>Pulp Fiction</title>
+        <director>Quentin Tarantino</director>
+        <year>1994</year>
+        <genre>Crime</genre>
+    </movie>
+</movies>
